@@ -1,11 +1,19 @@
 # find-in-rekordbox
 Find and query stuff from your rekordbox.xml file but from a command line. 
+I mainly made this to find things and sort quickly without having to load Rekordbox everytime.  
 
 Requirements: 
 - Rekordbox.xml file available (created by pioneer rekordbox)
-- terminal // xterminal
+- terminal window open or (xterminal, iTerm, etc - default zsh or bash should be fine)  
 - an export of the rekordbox.xml file in the same directory as this code base.
-- Python installed (if on Windows you may need to install Python - already there on a Macbook) 
+- Python installed (if on Windows you may need to install Python - already there on a Macbook)
+
+💾 Install  
+1. Download the file from this repo. 
+2. If you already have an export of your rekordbox.xml file great, if not you can easily make one in Rekordbox. You can name it whatever you want, but I recommend keeping it `rekordbox.xml`.  If you change the name, use the `-f <name of file>` option.
+3. Make the command executable otherwise you have to invoke python to run it. To do that, run this in the terminal - `chmod +x find-in-rekordbox`, but  if that gives you an error because your python installed in a different location, run `python3 find-in-rekordbox -h` 
+     
+
 
 🧰 Usage
 ```
