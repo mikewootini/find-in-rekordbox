@@ -17,54 +17,33 @@ find-in-rekordbox [-h] -a ARTIST [-f FILE]
                   [--csv CSV]
 ```
 
-
 🧩 Options
-Option	Description
--h, --help	Show help and exit
--a, --artist	Artist name to search for (required)
--f, --file	Path to rekordbox.xml (default: rekordbox.xml)
---genre	Filter by genre (partial match, case-insensitive)
---bpm-min	Minimum BPM
---bpm-max	Maximum BPM
---unplayed	Only include tracks with Play Count = 0
---after	Include only tracks added after YYYY-MM-DD
---before	Include only tracks added before YYYY-MM-DD
---sort	Sort by bpm, key, or title
---csv	Path to export matching tracks as a CSV
-
-
-🧩 Options
-Option	Description
--h, --help	Show help and exit
--a, --artist	Artist name to search for (required)
--f, --file	Path to rekordbox.xml (default: rekordbox.xml)
---genre	Filter by genre (partial match, case-insensitive)
---bpm-min	Minimum BPM
---bpm-max	Maximum BPM
---unplayed	Only include tracks with Play Count = 0
---after	Include only tracks added after YYYY-MM-DD
---before	Include only tracks added before YYYY-MM-DD
---sort	Sort by bpm, key, or title
---csv	Path to export matching tracks as a CSV
+| Option           | Description                                        |
+| ---------------- | -------------------------------------------------- |
+| `-h`, `--help`   | Show help and exit                                 |
+| `-a`, `--artist` | **Artist name** to search for (**required**)       |
+| `-f`, `--file`   | Path to `rekordbox.xml` (default: `rekordbox.xml`) |
+| `--genre`        | Filter by genre (partial match, case-insensitive)  |
+| `--bpm-min`      | Minimum BPM                                        |
+| `--bpm-max`      | Maximum BPM                                        |
+| `--unplayed`     | Only include tracks with `Play Count = 0`          |
+| `--after`        | Include only tracks added after `YYYY-MM-DD`       |
+| `--before`       | Include only tracks added before `YYYY-MM-DD`      |
+| `--sort`         | Sort by `bpm`, `key`, or `title`                   |
+| `--csv`          | Path to export matching tracks as a CSV            |
 
 
 🧪 Examples
-bash
-Copy
-Edit
-find-in-rekordbox -a "Nora"
+
+```find-in-rekordbox -a "Nora"```
 → Find all tracks by artists containing the word "Nora"
 
-bash
-Copy
-Edit
-find-in-rekordbox -a "Ben Böhmer" --genre "Melodic" --bpm-min 115 --bpm-max 125 --sort bpm
+
+```find-in-rekordbox -a "Ben Böhmer" --genre "Melodic" --bpm-min 115 --bpm-max 125 --sort bpm```
 → Melodic house vibes with specific tempo control
 
-bash
-Copy
-Edit
-find-in-rekordbox -a "" --unplayed --csv unplayed.csv
+
+```find-in-rekordbox -a "" --unplayed --csv unplayed.csv```
 → Dump your unplayed tracks to a CSV for discovery
 
 
