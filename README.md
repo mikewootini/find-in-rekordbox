@@ -11,7 +11,7 @@ Requirements:
 💾 Install  
 1. Download the file from this repo. 
 2. If you already have an export of your rekordbox.xml file great, if not you can easily make one in Rekordbox. You can name it whatever you want, but I recommend keeping it `rekordbox.xml`.  If you change the name, use the `-f <name of file>` option.
-3. Make the command executable otherwise you have to invoke python to run it. To do that, run this in the terminal - `chmod +x find-in-rekordbox`, but  if that gives you an error because your python installed in a different location, run `python3 find-in-rekordbox -h` 
+3. Make the command executable otherwise you have to invoke python to run it. To do that, run this in the terminal - `chmod +x find-in-rekordbox`, but  if that gives you an error it is most likely because your version of python is installed in a different location, run `python3 find-in-rekordbox -h`.  If This doesn't work, revist the requirements and make sure you have python installed.  
      
 
 
