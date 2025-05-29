@@ -1,0 +1,109 @@
+#!/usr/bin/env python3
+
+import argparse
+import xml.etree.ElementTree as ET
+import csv
+from datetime import datetime
+
+# --- CLI ARGUMENTS ---
+parser = argparse.ArgumentParser(description="Search Rekordbox collection by artist, genre, bpm, and more.")
+parser.add_argument('-a', '--artist', type=str, required=True, help="Artist name to search for")
+parser.add_argument('-f', '--file', type=str, default="rekordbox.xml", help="Path to rekordbox.xml")
+parser.add_argument('--genre', type=str, help="Filter by genre (partial match)")
+parser.add_argument('--bpm-min', type=float, help="Minimum BPM")
+parser.add_argument('--bpm-max', type=float, help="Maximum BPM")
+parser.add_argument('--unplayed', action='store_true', help="Only include tracks with 0 play count")
+parser.add_argument('--after', type=str, help="Only include tracks added after YYYY-MM-DD")
+parser.add_argument('--before', type=str, help="Only include tracks added before YYYY-MM-DD")
+parser.add_argument('--sort', type=str, choices=["bpm", "key", "title"], default="title", help="Sort output")
+parser.add_argument('--csv', type=str, help="Optional path to export matching tracks as CSV")
+args = parser.parse_args()
+
+# --- PARSE XML ---
+tree = ET.parse(args.file)
+root = tree.getroot()
+collection = root.find("COLLECTION")
+if collection is None:
+    print("Error: <COLLECTION> not found.")
+    exit(1)
+
+search = args.artist.strip().lower()
+matches = []
+checked = 0
+
+# --- SEARCH LOGIC ---
+for track in collection.iter("TRACK"):
+    artist = track.attrib.get("Artist", "")
+    checked += 1
+    if not artist or search not in artist.strip().lower():
+        continue
+
+    genre = track.attrib.get("Genre", "")
+    bpm_str = track.attrib.get("AverageBpm", "")
+    playcount = track.attrib.get("PlayCount", "")
+    date_str = track.attrib.get("DateAdded", "")
+
+    try:
+        bpm = float(bpm_str)
+    except (ValueError, TypeError):
+        bpm = None
+
+    try:
+        added_date = datetime.strptime(date_str, "%Y-%m-%d")
+    except:
+        added_date = None
+
+    # Apply filters
+    if args.genre and args.genre.lower() not in genre.lower():
+        continue
+    if args.unplayed and playcount != "0":
+        continue
+    if args.bpm_min and (bpm is None or bpm < args.bpm_min):
+        continue
+    if args.bpm_max and (bpm is None or bpm > args.bpm_max):
+        continue
+    if args.after:
+        after_date = datetime.strptime(args.after, "%Y-%m-%d")
+        if not added_date or added_date < after_date:
+            continue
+    if args.before:
+        before_date = datetime.strptime(args.before, "%Y-%m-%d")
+        if not added_date or added_date > before_date:
+            continue
+
+    matches.append({
+        "Title": track.attrib.get("Name", ""),
+        "Artist": artist,
+        "Album": track.attrib.get("Album", ""),
+        "Genre": genre,
+        "BPM": bpm_str,
+        "Key": track.attrib.get("Tonality", ""),
+        "PlayCount": playcount,
+        "DateAdded": date_str
+    })
+
+# --- SORT ---
+if args.sort == "bpm":
+    matches.sort(key=lambda t: float(t["BPM"]) if t["BPM"] else 0)
+elif args.sort == "key":
+    matches.sort(key=lambda t: t["Key"])
+else:
+    matches.sort(key=lambda t: t["Title"])
+
+# --- OUTPUT ---
+print(f"Checked {checked} tracks inside <COLLECTION>.")
+if not matches:
+    print(f"No tracks found for artist matching '{args.artist}'")
+else:
+    print(f"\nTracks by '{args.artist}':")
+    for t in matches:
+        print(f"  - {t['Title']} | Album: {t['Album']} | BPM: {t['BPM']} | Key: {t['Key']} | Genre: {t['Genre']} | Date Added: {t['DateAdded']}")
+
+# --- OPTIONAL CSV EXPORT ---
+if args.csv:
+    with open(args.csv, mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.DictWriter(file, fieldnames=matches[0].keys())
+        writer.writeheader()
+        writer.writerows(matches)
+    print(f"\nExported {len(matches)} tracks to {args.csv}")
+
