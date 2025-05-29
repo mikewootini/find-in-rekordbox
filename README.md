@@ -5,6 +5,7 @@ Requirements:
 - Rekordbox.xml file available (created by pioneer rekordbox)
 - terminal // xterminal
 - an export of the rekordbox.xml file in the same directory as this code base.
+- Python installed (if on Windows you may need to install Python - already there on a Macbook) 
 
 🧰 Usage
 ```
