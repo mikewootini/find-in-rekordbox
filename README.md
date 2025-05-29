@@ -33,19 +33,19 @@ find-in-rekordbox [-h] -a ARTIST [-f FILE]
 | `--csv`          | Path to export matching tracks as a CSV            |
 
 
-🧪 Examples
+🧪 Examples  
 
-```find-in-rekordbox -a "Nora"```
+```find-in-rekordbox -a "Nora"```  
 → Find all tracks by artists containing the word "Nora"
 
 
-```find-in-rekordbox -a "Ben Böhmer" --genre "Melodic" --bpm-min 115 --bpm-max 125 --sort bpm```
+```find-in-rekordbox -a "Ben Böhmer" --genre "Melodic" --bpm-min 115 --bpm-max 125 --sort bpm```  
 → Melodic house vibes with specific tempo control
 
 
-```find-in-rekordbox -a "" --unplayed --csv unplayed.csv```
+```find-in-rekordbox -a "" --unplayed --csv unplayed.csv```  
 → Dump your unplayed tracks to a CSV for discovery
 
 
-🐟 Made with bass by DJ Wootsie Woot
+🐟 Made with special BASSpro gear by DJ Wootsie Woot  
 Bass Pro certified. 🎣🕺
